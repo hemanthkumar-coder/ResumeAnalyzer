@@ -2,13 +2,14 @@ import { useState } from "react";
 import { IoMdCloudUpload } from "react-icons/io";
 import status from "../../utils/api-responses.js";
 
-function FileInput({ onChangeApiResponse }) {
+function FileInput({ onChangeApiResponse, onSetFeedback }) {
   const [file, setFile] = useState({});
 
   const [err, setErr] = useState("");
   const onFileUpload = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
+      setErr("");
     }
   };
   const onClickAnalyze = async () => {
@@ -25,8 +26,10 @@ function FileInput({ onChangeApiResponse }) {
       const feedback = await response.json();
       if (!feedback.success) {
         setErr(feedback.error);
+        onChangeApiResponse(status.FAILED);
+        return;
       }
-      console.log(feedback);
+      onSetFeedback(feedback);
       setFile({});
       onChangeApiResponse(status.SUCCESS);
     } catch (error) {
@@ -57,7 +60,7 @@ function FileInput({ onChangeApiResponse }) {
       >
         Analyze
       </button>
-      <p className="text-red-500 font-bold text-2lg">{err ? err : ""}</p>
+      <p className="text-red-500 font-bold text-2lg">{file ? err : ""}</p>
     </>
   );
 }
