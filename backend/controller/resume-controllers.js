@@ -40,8 +40,8 @@ async function getResumesData(req, res) {
   try {
     const resumes = await getResumes();
     if (resumes.length === 0) {
-      return res.status(404).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
         message: "No Resumes Found",
       });
     }

@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 Modal.setAppElement("#root");
 function FeedbackModal({ isModelOpen, onCloseModel, feedbackDetails }) {
   const { feedback } = feedbackDetails;
+  // console.log(feedbackDetails,"in Modal Comp")
   //
   //   const feedback = {
   //     personal_details: {

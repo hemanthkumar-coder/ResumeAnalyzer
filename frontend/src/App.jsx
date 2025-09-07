@@ -1,13 +1,15 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import status from "./utils/api-responses";
 import FileInput from "./components/FileInput";
 import { BounceLoader } from "react-spinners";
 import FeedbackModal from "./components/Modal";
+import ResumesTable from "./components/ResumesTable";
 
 function App() {
   const [apiResponse, setApiResponse] = useState(status.INITIAL);
   const [feedback, setFeedback] = useState({});
+  const [resumes, setResumes] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const onChangeApiResponse = (apiStatus) => {
     setApiResponse(apiStatus);
@@ -15,6 +17,19 @@ function App() {
       setIsOpen(true);
     }
   };
+
+  useEffect(() => {
+    async function getResumes() {
+      const url = "http://localhost:3000/resumes";
+      const options = {
+        method: "GET",
+      };
+      const response = await fetch(url, options);
+      const resumesList = await response.json();
+      setResumes(resumesList.data);
+    }
+    getResumes();
+  }, [feedback]);
 
   const onSetFeedback = (responseFeedback) => {
     setFeedback(responseFeedback);
@@ -41,7 +56,7 @@ function App() {
     );
   };
   return (
-    <div className="bg-slate-50 h-screen p-6 flex flex-col gap-4 items-center">
+    <div className="bg-slate-50 min-h-screen h-full p-6 flex flex-col gap-4 items-center">
       <span className="text-blue-500 text-5xl font-bold">
         Resume<span className="text-blue-400">Analyzer</span>
       </span>
@@ -51,6 +66,8 @@ function App() {
       />
       {apiResponse === status.PENDING ? renderLoader() : null}
       {modalIsOpen ? renderModal() : ""}
+      <h1 className="text-xl text-blue-400 font-bold">Resume History</h1>
+      <ResumesTable resumes={resumes}></ResumesTable>
     </div>
   );
 }

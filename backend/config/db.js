@@ -10,8 +10,8 @@ async function createResumeTable() {
         CREATE TABLE  IF NOT EXISTS resumes
         (
             resume_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY ,
-            name VARCHAR(50) NOT NULL,
-            email VARCHAR(50) NOT NULL,
+            name VARCHAR(50) DEFAULT 'No Name' ,
+            email VARCHAR(50) DEFAULT 'No Email',
             file_name VARCHAR(50) NOT NULL,
             feedback JSONB
         )

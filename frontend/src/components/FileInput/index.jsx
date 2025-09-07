@@ -14,7 +14,7 @@ function FileInput({ onChangeApiResponse, onSetFeedback }) {
   };
   const onClickAnalyze = async () => {
     try {
-      setErr("")
+      setErr("");
       onChangeApiResponse(status.PENDING);
       const formData = new FormData();
       formData.set("resume", file);
@@ -46,6 +46,7 @@ function FileInput({ onChangeApiResponse, onSetFeedback }) {
           className="hidden"
           type="file"
           id="fileInput"
+          accept=".pdf"
         />
         <label
           className="h-50 w-75 flex hover:cursor-pointer hover:border-blue-800 flex-col justify-center items-center text-lg text-blue-400 text-center rounded-lg border-2 border-solid border-blue-400"
